@@ -1,0 +1,75 @@
+.main {
+  position: absolute;
+  height: 100vh;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+}
+
+.Header {
+  height: 50px;
+  width: 100%;
+  background-color: bisque;
+  position: absolute;
+  outline: 1px solid #000;
+}
+
+.time{
+  width: 100px;
+}
+
+.menu {
+  max-height: calc(100vh - 54px);
+  height: calc(100vh - 54px);
+  overflow-y: scroll;
+  width: 300px;
+  position: absolute;
+  top: 50px;
+  background-color: #e5e5e5;
+  border: 1px solid #000;
+}
+
+.decart {
+  height: calc(100vh - 50px);
+  width: calc(100% - 300px);
+  position: absolute;
+  top: 50px;
+  left: 300px;
+  z-index: 10;
+}
+
+.objects{
+  height: calc(100vh - 50px);
+  width: calc(100% - 300px);
+  position: absolute;
+  top: 50px;
+  left: 300px;
+  z-index: 5;
+}
+
+.button_1 {
+  position: absolute;
+  width: 55px;
+  right: 114px;
+}
+
+.button_2 {
+  position: absolute;
+  width: 55px;
+  right: 57px;
+}
+
+.button_3 {
+  position: absolute;
+  width: 55px;
+  right: 0px;
+}
+
+.aaaa {
+  margin: 1px;
+}
+
+.breaking-line {
+  white-space: pre-line;
+}
