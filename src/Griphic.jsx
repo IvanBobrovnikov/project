@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react'
 import Decart from './components/Decart'
 import MenuElement from './components/MenuElement';
 import AnchoreMenu from './components/AnchoreMenu';
+import restart from './img/restart.png'
+import pause from './img/pause.png'
+import start from './img/start.png'
 import './App.css'
 
 const Graphic = (props) =>{
@@ -156,13 +159,13 @@ const Graphic = (props) =>{
   return(
     <div className='main'>
       <header className = 'Header'> 
-        <div className='time'>{`Time: ${superRound(time, 100)}`}</div>
         <button onClick={() => handle_placing()}>place</button>
         <button onClick={() => place_anchore()}>place anchore</button>
         <button onClick={() => setWorkType(2)}>change to lever</button>
-        <button className = 'button_3' onClick={() => reset_timer()}>restart</button>
-        <button className = 'button_2' onClick={() => stop_timer()}>stop</button>
-        <button className = 'button_1' onClick={() => start_timer()}>start</button>
+        <div className='time' fontSize = '80px'>{`Time: ${superRound(time, 100)}`}</div>
+        <img className = 'button_3' onClick={() => reset_timer()} src = {restart} alt = "restart" width='41px' height='41px' />
+        <img className = 'button_2' onClick={() => stop_timer()}  src = {pause} alt = "pause" width='38px' height='38px'/>
+        <img className = 'button_1' onClick={() => start_timer()} src = {start} alt = "start" width='41px' height='41px'/>
       </header>
       <div className='menu'>
         <div>{list_objects}</div>

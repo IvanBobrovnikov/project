@@ -16,6 +16,8 @@
 }
 
 .time{
+  position: absolute;
+  right: 110px;
   width: 100px;
 }
 
@@ -50,20 +52,20 @@
 
 .button_1 {
   position: absolute;
-  width: 55px;
-  right: 114px;
+  top: 4px;
+  right: 91px;
 }
 
 .button_2 {
   position: absolute;
-  width: 55px;
-  right: 57px;
+  top: 4px;
+  right: 50px;
 }
 
 .button_3 {
   position: absolute;
-  width: 55px;
-  right: 0px;
+  top: 4px;
+  right: 5px;
 }
 
 .aaaa {
