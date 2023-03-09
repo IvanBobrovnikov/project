@@ -218,7 +218,8 @@ const Decart = (props) => {
           let anchore;
           for(let g = 0; g < anchors.length; g++){
             if(anchors[g].id === anchoreId){
-              anchore = anchors[g]; break;
+              anchore = anchors[g]; 
+              break;
             }
           }
           console.log(anchore);
