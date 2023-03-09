@@ -13,7 +13,6 @@ function App() {
     console.log(workType);
     setRenderGraf(false); setRenderRech(false);
     if(workType === 1) setRenderGraf(true);
-    
     if(workType === 2) setRenderRech(true);
   }, [workType])
 
