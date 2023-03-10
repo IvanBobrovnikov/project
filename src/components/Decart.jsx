@@ -194,6 +194,38 @@ const Decart = (props) => {
           ctx.arc(x, y, radius, 0, 2*Math.PI, false);
           ctx.stroke();
           ctx.closePath();
+        }else if(objects[i].isGravity === true){
+          let anchoreId = objects[i].anchore;
+          let anchore;
+          for(let g = 0; g < anchors.length; g++){
+            if(anchors[g].id === anchoreId){
+              anchore = anchors[g]; break;
+            }
+          }
+          let x = anchore.x * numberCof * scaleX + startX;
+          let y = startY - anchore.y * numberCof * scaleY;
+          let radius = Math.pow(( Math.pow((anchore.x - objects[i].x), 2) + Math.pow((anchore.y - objects[i].y), 2) ), 0.5);
+          let aY = objects[i].y - anchore.y;
+          let fi = Math.acos(aY / radius);
+          radius = radius * numberCof * scaleX;
+          let objx = startX + objects[i].x * numberCof * scaleX;
+          let objy = startY - objects[i].y * numberCof * scaleX;
+          ctx.beginPath();
+          ctx.strokeStyle = objects[i].color;
+          ctx.lineWidth = 0.7;
+          ctx.arc(x, y, radius, fi - Math.PI/2, -fi - Math.PI/2, false);
+          //ctx.lineTo( , objy);
+          ctx.stroke();
+          ctx.closePath();
+
+          ctx.beginPath();
+          ctx.strokeStyle = objects[i].color;
+          ctx.lineWidth = 0.3;
+          ctx.moveTo(objx, objy);
+          ctx.lineTo(x, y);
+          ctx.lineTo(2*x - objx, objy);
+          ctx.stroke();
+          ctx.closePath();
         }
       }
     }
@@ -222,7 +254,6 @@ const Decart = (props) => {
               break;
             }
           }
-          console.log(anchore);
           let aX = objects[i].x - anchore.x;
           let aY = objects[i].y - anchore.y;
           let bX = objects[i].speedX;
@@ -257,6 +288,34 @@ const Decart = (props) => {
           let Y = radius * Math.cos(alfa) + anchore.y;
           x = startX + X * numberCof * scaleX;
           y = startY - Y * numberCof * scaleY;
+          ctx.beginPath();
+          ctx.strokeStyle = objects[i].color;
+          ctx.lineWidth = 0.8;
+          ctx.moveTo(startX + anchore.x * numberCof * scaleX, startY - anchore.y * numberCof * scaleY);
+          ctx.lineTo(x, y);
+          ctx.stroke();
+          ctx.closePath();
+        }else if(objects[i].isGravity === true){
+          let anchoreId = objects[i].anchore;
+          let anchore;
+          for(let g = 0; g < anchors.length; g++){
+            if(anchors[g].id === anchoreId){
+              anchore = anchors[g]; 
+              break;
+            }
+          }
+          let aY = objects[i].y - anchore.y;
+          let ax = anchore.x, ay = anchore.y;
+          let objx = objects[i].x, objy = objects[i].y;
+          let radius = Math.pow(( Math.pow((ax - objx), 2) + Math.pow((ay - objy), 2) ), 0.5);
+          let fi = Math.PI - Math.acos(aY / radius) ;
+          if(objects[i].x > anchore.x) fi = -fi;
+          let coord;
+          if(time !== 0) coord = radius*Math.sin(fi) * Math.cos( Math.pow((10 / radius), 0.5) * time);
+          else coord = radius * Math.sin(fi);
+          x = startX +  (anchore.x - coord) * numberCof * scaleX;
+          y = Math.pow( ( radius*radius - coord*coord ) , 0.5);
+          y = startY - (anchore.y - y) * numberCof * scaleX;
           ctx.beginPath();
           ctx.strokeStyle = objects[i].color;
           ctx.lineWidth = 0.8;
