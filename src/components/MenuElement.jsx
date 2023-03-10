@@ -28,19 +28,19 @@ const MenuElement = (props) =>{
         let words = value.split(' ');
         if(number === 0){
           let name = words[0];
-          let x = words[3];
-          let y = words[6];
+          let x = Number(words[3]);
+          let y = Number(words[6]);
           change_objects(name, 'name', id);
           change_objects(x, 'x', id);
           change_objects(y, 'y', id);
         }else if(number === 1){
-          let vx = words[2];
-          let vy = words[5];
+          let vx = Number(words[2]);
+          let vy = Number(words[5]);
           change_objects(vx, 'speedX', id);
           change_objects(vy, 'speedY', id);
         }else{
-          let vx = words[2];
-          let vy = words[5];
+          let vx = Number(words[2]);
+          let vy = Number(words[5]);
           change_objects(vx, 'acsX', id);
           change_objects(vy, 'acsY', id);
         }

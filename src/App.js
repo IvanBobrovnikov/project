@@ -10,7 +10,6 @@ function App() {
   const [renderRech, setRenderRech] = useState(false);
 
   useEffect(() => {
-    console.log(workType);
     setRenderGraf(false); setRenderRech(false);
     if(workType === 1) setRenderGraf(true);
     if(workType === 2) setRenderRech(true);

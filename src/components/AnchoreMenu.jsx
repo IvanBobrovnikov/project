@@ -13,8 +13,8 @@ const AnchoreMenu = (props) => {
         let x = text[3];
         let y = text[5];
         change_anchore(name, 'name', id);
-        change_anchore(x, 'x', id);
-        change_anchore(y, 'y', id);
+        change_anchore(Number(x), 'x', id);
+        change_anchore(Number(y), 'y', id);
         change_anchore(value, 'text', id);
     }
 

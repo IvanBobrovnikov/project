@@ -311,7 +311,7 @@ const Decart = (props) => {
           let fi = Math.PI - Math.acos(aaY / radius) ;
           if(objects[i].x > anchore.x) fi = -fi;
           let coord;
-          if(time !== 0) coord = radius*Math.sin(fi) * Math.cos( Math.pow((10 / radius), 0.5) * time);
+          if(time !== 0) coord = radius*Math.sin(fi) * Math.cos( Math.pow((9.8 / radius), 0.5) * time);
           else coord = radius * Math.sin(fi);
           x = startX +  (anchore.x - coord) * numberCof * scaleX;
           y = Math.pow( ( radius*radius - coord*coord ) , 0.5);
