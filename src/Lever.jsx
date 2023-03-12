@@ -10,7 +10,7 @@ const Lever = (props) => {
             <header className = 'Header'> 
                 <button onClick={() => setWorkType(1)}>change to graphic</button>
             </header>
-        <div className='menu'>
+        <div>
             
         </div>
         <div className = 'decart'>

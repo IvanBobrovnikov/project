@@ -167,7 +167,7 @@ const Graphic = (props) =>{
         <img className = 'button_2' onClick={() => stop_timer()}  src = {pause} alt = "pause" width='38px' height='38px'/>
         <img className = 'button_1' onClick={() => start_timer()} src = {start} alt = "start" width='41px' height='41px'/>
       </header>
-      <div className='menu'>
+      <div>
         <div>{list_objects}</div>
       </div>
       <div className = 'decart'>
