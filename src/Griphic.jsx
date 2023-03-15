@@ -9,7 +9,7 @@ import './App.css'
 
 const Graphic = (props) =>{
     
-  const delta_time = 0.015555;
+  const delta_time = 0.01;
 
   const setWorkType = props.setWorkType;
 
