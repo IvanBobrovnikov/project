@@ -9,7 +9,7 @@ import './App.css'
 
 const Graphic = (props) =>{
     
-  const delta_time = 0.015;
+  const delta_time = 0.015555;
 
   const setWorkType = props.setWorkType;
 
@@ -159,9 +159,8 @@ const Graphic = (props) =>{
   return(
     <div className='main'>
       <header className = 'Header'> 
-        <button onClick={() => handle_placing()}>place</button>
+        <button onClick={() => handle_placing()}>place object</button>
         <button onClick={() => place_anchore()}>place anchore</button>
-        <button onClick={() => setWorkType(2)}>change to lever</button>
         <div className='time' fontSize = '80px'>{`Time: ${superRound(time, 100)}`}</div>
         <img className = 'button_3' onClick={() => reset_timer()} src = {restart} alt = "restart" width='41px' height='41px' />
         <img className = 'button_2' onClick={() => stop_timer()}  src = {pause} alt = "pause" width='38px' height='38px'/>
@@ -187,3 +186,6 @@ const Graphic = (props) =>{
 }
 
 export default Graphic;
+
+
+//<button onClick={() => setWorkType(2)}>change to lever</button>
