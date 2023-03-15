@@ -267,9 +267,9 @@ const Decart = (props) => {
           let sinA = Math.pow((1 - Math.pow(cosA, 2)), 0.5);
           const znak = (aX, aY, bX, bY) => {
             let cof = 1;
-            if(aX > 0 && aY > 0) if(bY > (aY/aX) * bX) cof = -1;
+            if(aX > 0 && aY > 0) if(bY >= (aY/aX) * bX) cof = -1;
             if(aX < 0 && aY > 0) if(bY < (aY/aX) * bX) cof = -1;
-            if(aX < 0 && aY < 0) if(bY < (aY/aX) * bX) cof = -1;
+            if(aX < 0 && aY < 0) if(bY <= (aY/aX) * bX) cof = -1;
             if(aX > 0 && aY < 0) if(bY > (aY/aX) * bX) cof = -1;
             return cof;
           }
@@ -413,7 +413,7 @@ const Decart = (props) => {
     set_x(x);
     set_y(y);
   }
-  
+
   function drawArrow(ctx, fromx, fromy, tox, toy, arrowWidth, color){
     var headlen = 10;
     var angle = Math.atan2(toy-fromy,tox-fromx);
