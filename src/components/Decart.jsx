@@ -56,6 +56,7 @@ const Decart = (props) => {
     //рисуем систему координат
     const decart = () => {
       ctx.clearRect(0, 0, width, height);
+      //проведение осей системы координат
       ctx.beginPath();
       ctx.strokeStyle = '#000000';
       ctx.lineWidth = 1.1;
@@ -72,7 +73,6 @@ const Decart = (props) => {
       for(let i = startY; i > 0; i -= scaleY ){
         ctx.moveTo(0, i);
         ctx.lineTo(width, i);
-        
         if(startX < 0) ctx.fillText((startY - i) / scaleY / numberCof, 5, i + shiftNumbers);
         else if(startX > width - 20) ctx.fillText((startY - i) / scaleY / numberCof, width - 20, i + shiftNumbers);
         else ctx.fillText((startY - i) / scaleY / numberCof, startX, i + shiftNumbers);
@@ -413,11 +413,7 @@ const Decart = (props) => {
     set_x(x);
     set_y(y);
   }
-
-  const stopChange = () => {
-    setIsChange(false);
-  }
-
+  
   function drawArrow(ctx, fromx, fromy, tox, toy, arrowWidth, color){
     var headlen = 10;
     var angle = Math.atan2(toy-fromy,tox-fromx);
@@ -516,7 +512,7 @@ const Decart = (props) => {
     onWheel = {(e) => scaleChange(e.deltaY)}
     onMouseDown = {(e) => startChange(e.clientX, e.clientY)}
     onMouseMove = {(e) => {startMove(e.clientX, e.clientY);}}
-    onMouseUp = {stopChange}
+    onMouseUp = {() => setIsChange(false)}
     onClick = {(e) => {
       select_anchore(e.pageX - 300, e.pageY - 50);
       to_select_objext();
