@@ -69,7 +69,7 @@ const Graphic = (props) =>{
     let text = [`Z = ( ${superRound(x, 100)} ; ${superRound(y, 100)} )`,
            `Vx = ${superRound(speedX, 100)} Vy = ${superRound(speedY, 100)} `, 
            `Ax = ${superRound(acsX, 100)} Ay = ${superRound(acsY, 100)}`]
-    set_objects([].concat(objects, [{id: next_id, name: 'Z', x: x, y: y, speedX: speedX, speedY: speedY, acsX: acsX, acsY: acsY, isGravity: false, color: '000000', is_selected: false, anchore: 'no', text: text}]));
+    set_objects([].concat(objects, [{id: next_id, name: 'Z', x: x, y: y, speedX: speedX, speedY: speedY, acsX: acsX, acsY: acsY, isGravity: false, color: '#000000', is_selected: false, anchore: 'no', text: text}]));
     set_next_id(next_id+1);
   }
 
