@@ -34,13 +34,29 @@ const MenuElement = (props) =>{
           change_objects(x, 'x', id);
           change_objects(y, 'y', id);
         }else if(number === 1){
-          let vx = Number(words[2]);
-          let vy = Number(words[5]);
+          let vx, vy;
+          if(words[0] === 'Vx'){
+            vx = Number(words[2]);
+            vy = Number(words[5]);
+          }else{
+            let angle = Math.round(Number(words[5]) * Math.PI / 180 * 1000) / 1000;
+            let v = Number(words[2]);
+            vx = v * Math.cos(angle);
+            vy = v * Math.sin(angle);
+          }
           change_objects(vx, 'speedX', id);
           change_objects(vy, 'speedY', id);
         }else{
-          let vx = Number(words[2]);
-          let vy = Number(words[5]);
+          let vx, vy;
+          if(words[0] === 'Ax'){
+            vx = Number(words[2]);
+            vy = Number(words[5]);
+          }else{
+            let angle = Math.round(Number(words[5]) * Math.PI / 180 * 1000) / 1000;
+            let v = Number(words[2]);
+            vx = v * Math.cos(angle);
+            vy = v * Math.sin(angle);
+          }
           change_objects(vx, 'acsX', id);
           change_objects(vy, 'acsY', id);
         }
