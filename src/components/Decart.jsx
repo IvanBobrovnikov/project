@@ -310,9 +310,7 @@ const Decart = (props) => {
           let radius = Math.pow(( Math.pow((ax - objx), 2) + Math.pow((ay - objy), 2) ), 0.5);
           let fi = Math.PI - Math.acos(aaY / radius) ;
           if(objects[i].x > anchore.x) fi = -fi;
-          let coord;
-          if(time !== 0) coord = radius*Math.sin(fi) * Math.cos( Math.pow((9.8 / radius), 0.5) * time);
-          else coord = radius * Math.sin(fi);
+          let coord = radius*Math.sin(fi) * Math.cos( Math.pow((9.8 / radius), 0.5) * time);
           x = startX +  (anchore.x - coord) * numberCof * scaleX;
           y = Math.pow( ( radius*radius - coord*coord ) , 0.5);
           y = startY - (anchore.y - y) * numberCof * scaleX;
