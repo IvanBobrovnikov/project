@@ -507,9 +507,9 @@ const Decart = (props) => {
   return (
     <>
     <canvas width={width} height={height} ref={canvasRef}
-    onWheel = {(e) => scaleChange(e.deltaY)}
+    onWheel = {(e) => {scaleChange(e.deltaY);}}
     onMouseDown = {(e) => startChange(e.clientX, e.clientY)}
-    onMouseMove = {(e) => {startMove(e.clientX, e.clientY);}}
+    onMouseMove = {(e) => startMove(e.clientX, e.clientY)}
     onMouseUp = {() => setIsChange(false)}
     onClick = {(e) => {
       select_anchore(e.pageX - 300, e.pageY - 50);
