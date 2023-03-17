@@ -381,7 +381,6 @@ const Decart = (props) => {
       }
     }
     draw_anchores();
-    //props.change_time()
   });
 
   const scaleChange = (delta) => {
