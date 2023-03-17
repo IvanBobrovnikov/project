@@ -234,17 +234,15 @@ const Decart = (props) => {
       for(let i = 0; i < objects.length; i++){
         let x, y;
         if(objects[i].anchore === 'no'){
-          let start_x =  scaleX * numberCof * objects[i].x;
-          let start_y = scaleX * numberCof * objects[i].y;
-          let speedX = scaleX * numberCof * objects[i].speedX;
-          let speedY = scaleX * numberCof * objects[i].speedY;
-          let acsX = scaleX * numberCof * objects[i].acsX, acsY;
-          if(objects[i].isGravity) acsY = scaleX * numberCof * (objects[i].acsY - 10);
-          else acsY = scaleX * numberCof * objects[i].acsY;
+          let start_x = objects[i].x;
+          let start_y = objects[i].y;
+          let speedX = objects[i].speedX;
+          let speedY = objects[i].speedY;
+          let acsX = objects[i].acsX;
+          let acsY = objects[i].acsY;
+          if(objects[i].isGravity) acsY -= 10;
           x = start_x + speedX * time + acsX * time*time / 2;
           y = start_y + speedY * time + acsY * time*time / 2;
-          x = startX + x;
-          y = startY - y;
         }else if(objects[i].isGravity === false){
           let anchoreId = objects[i].anchore;
           let anchore;
@@ -261,7 +259,7 @@ const Decart = (props) => {
           let cX = objects[i].acsX;
           let cY = objects[i].acsY;
           let radius = Math.pow(( Math.pow((anchore.x - objects[i].x), 2) + Math.pow((anchore.y - objects[i].y), 2) ), 0.5);
-          let fi = Math.acos(aY / radius) * 180 / Math.PI;
+          let fi = Math.acos(aY / radius);
           if(objects[i].x < anchore.x) fi = -fi;
           let cosA = ((aX * bX) + (aY * bY))/( Math.pow((aX*aX+aY*aY), 0.5) * Math.pow((bX*bX+bY*bY), 0.5) );
           let sinA = Math.pow((1 - Math.pow(cosA, 2)), 0.5);
@@ -282,17 +280,15 @@ const Decart = (props) => {
           let acs;
           if((cX === 0) && (cY === 0)) acs = 0;
           else acs = Math.pow(( cX*cX + cY*cY ), 0.5) * sinB * znak(aX, aY, cX, cY);
-          let angle = ((time * speed + time*time * acs / 2)/(2*Math.PI*radius) * 360) % 360;
-          let alfa = (fi+angle) * Math.PI / 180;
-          let X = radius * Math.sin(alfa) + anchore.x;
-          let Y = radius * Math.cos(alfa) + anchore.y;
-          x = startX + X * numberCof * scaleX;
-          y = startY - Y * numberCof * scaleY;
+          let angle = ((time * speed + time*time * acs / 2)/(radius)) % (2*Math.PI);
+          let alfa = fi+angle;
+          x = radius * Math.sin(alfa) + anchore.x;
+          y = radius * Math.cos(alfa) + anchore.y;
           ctx.beginPath();
           ctx.strokeStyle = objects[i].color;
           ctx.lineWidth = 0.8;
           ctx.moveTo(startX + anchore.x * numberCof * scaleX, startY - anchore.y * numberCof * scaleY);
-          ctx.lineTo(x, y);
+          ctx.lineTo(startX + scaleX * numberCof * x, startY - numberCof * scaleX * y);
           ctx.stroke();
           ctx.closePath();
         }else if(objects[i].isGravity === true){
@@ -308,35 +304,35 @@ const Decart = (props) => {
           let ax = anchore.x, ay = anchore.y;
           let objx = objects[i].x, objy = objects[i].y;
           let radius = Math.pow(( Math.pow((ax - objx), 2) + Math.pow((ay - objy), 2) ), 0.5);
-          let fi = Math.PI - Math.acos(aaY / radius) ;
+          let fi = Math.PI - Math.acos(aaY / radius);
           if(objects[i].x > anchore.x) fi = -fi;
           let coord = radius*Math.sin(fi) * Math.cos( Math.pow((9.8 / radius), 0.5) * time);
-          x = startX +  (anchore.x - coord) * numberCof * scaleX;
-          y = Math.pow( ( radius*radius - coord*coord ) , 0.5);
-          y = startY - (anchore.y - y) * numberCof * scaleX;
+          x = anchore.x - coord;
+          y = anchore.y - Math.pow( ( radius*radius - coord*coord ) , 0.5);
           ctx.beginPath();
           ctx.strokeStyle = objects[i].color;
           ctx.lineWidth = 0.8;
           ctx.moveTo(startX + anchore.x * numberCof * scaleX, startY - anchore.y * numberCof * scaleY);
-          ctx.lineTo(x, y);
+          ctx.lineTo(startX + numberCof * scaleX * x, startY - numberCof * scaleX * y);
           ctx.stroke();
           ctx.closePath();
         }
-        if(selecting) select_object(mousePos.x, mousePos.y, x, y, objects[i].id);
-        if(!(x < -10 || x > width + 10 || y < -10 || y > height + 10)){
+        if(selecting) select_object(mousePos.x, mousePos.y, startX + numberCof * scaleX * x, startY - numberCof * scaleX * y, objects[i].id);
+        if(!(startX + numberCof * scaleX * x < -10 || startX + numberCof * scaleX * x > width + 10 || 
+          startY - numberCof * scaleX * y < -10 || startY - numberCof * scaleX * y > height + 10)){
           ctx.beginPath();
           ctx.fillStyle = objects[i].color;
-          ctx.arc(x, y, 7, 0, 2*Math.PI, false);
+          ctx.arc(startX + scaleX * numberCof * x, startY - scaleX * numberCof * y, 7, 0, 2*Math.PI, false);
           ctx.fill();
           if(objects[i].is_selected){
             ctx.beginPath();
-            ctx.arc(x, y, 12, 0, 2*Math.PI, false);
+            ctx.arc(startX + scaleX * numberCof * x, startY - scaleX * numberCof * y, 12, 0, 2*Math.PI, false);
             ctx.strokeStyle = objects[i].color;
             ctx.lineWidth = 1;
             ctx.stroke();
           }
           ctx.fillStyle = '#000000';
-          ctx.fillText(objects[i].name, x + 3*shiftNumbers, y);
+          ctx.fillText(objects[i].name, startX + numberCof * scaleX * x + 3*shiftNumbers, startY - numberCof * scaleX * y);
         }
       }
     }
