@@ -29,7 +29,7 @@ const Graphic = (props) =>{
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if(!is_paused) set_time(time + delta_time);
+      if(!is_paused) set_time(superRound(time + delta_time, 100));
     }, 1000*delta_time)
 
     return () => {
