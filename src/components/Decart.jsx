@@ -2,6 +2,8 @@ import React, { useRef, useEffect, useState } from 'react'
 
 const Decart = (props) => {
 
+  const change_objects = props.change_objects;
+
   const anchors = props.anchors;
 
   const [selecting, set_selecting] = useState(false);
@@ -178,12 +180,13 @@ const Decart = (props) => {
           ctx.fillStyle = '#000000';
         }else if(objects[i].isGravity === false){
           let anchoreId = objects[i].anchore;
-          let anchore;
+          let anchore = 0;
           for(let g = 0; g < anchors.length; g++){
             if(anchors[g].id === anchoreId){
               anchore = anchors[g]; break;
             }
           }
+          if(anchore === 0) {change_objects('no', 'anchore', objects[i].id); continue;}
           let radius = Math.pow(( Math.pow((anchore.x - objects[i].x), 2) + Math.pow((anchore.y - objects[i].y), 2) ), 0.5);
           radius = radius * numberCof * scaleX;
           let x = anchore.x * numberCof * scaleX + startX;
@@ -196,12 +199,13 @@ const Decart = (props) => {
           ctx.closePath();
         }else if(objects[i].isGravity === true){
           let anchoreId = objects[i].anchore;
-          let anchore;
+          let anchore = 0;
           for(let g = 0; g < anchors.length; g++){
             if(anchors[g].id === anchoreId){
               anchore = anchors[g]; break;
             }
           }
+          if(anchore === 0) {change_objects('no', 'anchore', objects[i].id); continue;}
           let x = anchore.x * numberCof * scaleX + startX;
           let y = startY - anchore.y * numberCof * scaleY;
           let radius = Math.pow(( Math.pow((anchore.x - objects[i].x), 2) + Math.pow((anchore.y - objects[i].y), 2) ), 0.5);
@@ -245,13 +249,14 @@ const Decart = (props) => {
           y = start_y + speedY * time + acsY * time*time / 2;
         }else if(objects[i].isGravity === false){
           let anchoreId = objects[i].anchore;
-          let anchore;
+          let anchore = 0;
           for(let g = 0; g < anchors.length; g++){
             if(anchors[g].id === anchoreId){
               anchore = anchors[g]; 
               break;
             }
           }
+          if(anchore === 0) {change_objects('no', 'anchore', objects[i].id); continue;}
           let aX = objects[i].x - anchore.x;
           let aY = objects[i].y - anchore.y;
           let bX = objects[i].speedX;
@@ -293,13 +298,14 @@ const Decart = (props) => {
           ctx.closePath();
         }else if(objects[i].isGravity === true){
           let anchoreId = objects[i].anchore;
-          let anchore;
+          let anchore = 0;
           for(let g = 0; g < anchors.length; g++){
             if(anchors[g].id === anchoreId){
               anchore = anchors[g]; 
               break;
             }
           }
+          if(anchore === 0) {change_objects('no', 'anchore', objects[i].id); continue;}
           let aaY = objects[i].y - anchore.y;
           let ax = anchore.x, ay = anchore.y;
           let objx = objects[i].x, objy = objects[i].y;

@@ -178,6 +178,7 @@ const Graphic = (props) =>{
         anchors = {anchors}
         is_placing_anchore = {is_placing_anchore} stop_placing_anchore = {stop_placing_anchore} add_anchore = {add_anchore}
         select_anchore = {select_anchore}
+        change_objects = {change_objects}
         />
         <div>{anchoreMenu}</div>
       </div>
