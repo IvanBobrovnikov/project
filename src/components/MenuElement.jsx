@@ -39,26 +39,34 @@ const MenuElement = (props) =>{
             vx = Number(words[2]);
             vy = Number(words[5]);
           }else{
-            let angle = Math.round(Number(words[5]) * Math.PI / 180 * 1000) / 1000;
             let v = Number(words[2]);
-            vx = v * Math.cos(angle);
-            vy = v * Math.sin(angle);
+            if(v !== 0){
+              let angle = Math.round(Number(words[5]) * Math.PI / 180 * 1000) / 1000;
+              if(isNaN(angle)) angle = 0;
+              vx = v * Math.cos(angle);
+              vy = v * Math.sin(angle);
+            }else{vx = 0; vy = 0;}
           }
           change_objects(vx, 'speedX', id);
           change_objects(vy, 'speedY', id);
+          change_objects('no', 'speed', id);
         }else{
           let vx, vy;
           if(words[0] === 'Ax'){
             vx = Number(words[2]);
             vy = Number(words[5]);
           }else{
-            let angle = Math.round(Number(words[5]) * Math.PI / 180 * 1000) / 1000;
             let v = Number(words[2]);
-            vx = v * Math.cos(angle);
-            vy = v * Math.sin(angle);
+            if(v !== 0){
+              let angle = Math.round(Number(words[5]) * Math.PI / 180 * 1000) / 1000;
+              if(isNaN(angle)) angle = 0;
+              vx = v * Math.cos(angle);
+              vy = v * Math.sin(angle);
+            }else{vx = 0; vy = 0;}
           }
           change_objects(vx, 'acsX', id);
           change_objects(vy, 'acsY', id);
+          change_objects('no', 'speed', id);
         }
     }
 

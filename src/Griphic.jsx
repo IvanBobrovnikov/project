@@ -9,7 +9,7 @@ import './App.css'
 
 const Graphic = (props) =>{
     
-  const delta_time = 0.01;
+  const delta_time = 0.025;
 
   const setWorkType = props.setWorkType;
 
@@ -69,7 +69,7 @@ const Graphic = (props) =>{
     let text = [`Z = ( ${superRound(x, 100)} ; ${superRound(y, 100)} )`,
            `Vx = ${superRound(speedX, 100)} Vy = ${superRound(speedY, 100)} `, 
            `Ax = ${superRound(acsX, 100)} Ay = ${superRound(acsY, 100)}`]
-    set_objects([].concat(objects, [{id: next_id, name: 'Z', x: x, y: y, speedX: speedX, speedY: speedY, acsX: acsX, acsY: acsY, isGravity: false, color: '#000000', is_selected: false, anchore: 'no', text: text}]));
+    set_objects([].concat(objects, [{id: next_id, name: 'Z', x: x, y: y, speedX: speedX, speedY: speedY, V: 'no', acsX: acsX, acs: 'no', acsY: acsY, isGravity: false, color: '#000000', is_selected: false, anchore: 'no', text: text}]));
     set_next_id(next_id+1);
   }
 
@@ -77,8 +77,8 @@ const Graphic = (props) =>{
     let newObjects = []
     for(let i = 0; i < objects.length; i++){
       let obj = objects[i];
-      obj.is_selected = false;
-      if(number === obj.id) {obj.is_selected = true;
+      if(number === obj.id) {
+      obj.is_selected = !obj.is_selected;
       if(ancherID !== -1) obj.anchore = ancherID;}
       newObjects.push(obj);
     }

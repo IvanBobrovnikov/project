@@ -177,6 +177,21 @@ const Decart = (props) => {
             ctx.fillRect(X1, Y, tolshina, tolshina);
             ctx.fillRect(X2, Y, tolshina, tolshina);
           }
+          if(objects[i].is_selected){
+            let acs = objects[i].acsY;
+            if(objects[i].isGravity) acs -= 10;
+            let t = -objects[i].speedY/acs;
+            if(t < 0) continue;
+            let x = startX + (start_x + speedX * t + acsX * t * t / 2);
+            let y = startY - (start_y + speedY * t + acsY * t * t / 2);
+            ctx.beginPath();
+            ctx.arc(x, y, 3, 0, 2*Math.PI, false);
+            ctx.fill();
+            const superRound = (num) => {
+              return Math.round(num * 100) / 100
+            } 
+            ctx.fillText(`(${superRound((x - startX) / numberCof / scaleX)}; ${superRound((startY - y) / numberCof / scaleX)})`, x + 10, y - 10);
+          }
           ctx.fillStyle = '#000000';
         }else if(objects[i].isGravity === false){
           let anchoreId = objects[i].anchore;
@@ -205,7 +220,7 @@ const Decart = (props) => {
               anchore = anchors[g]; break;
             }
           }
-          if(anchore === 0) {change_objects('no', 'anchore', objects[i].id); continue;}
+          if(anchore === {}) {change_objects('no', 'anchore', objects[i].id); continue;}
           let x = anchore.x * numberCof * scaleX + startX;
           let y = startY - anchore.y * numberCof * scaleY;
           let radius = Math.pow(( Math.pow((anchore.x - objects[i].x), 2) + Math.pow((anchore.y - objects[i].y), 2) ), 0.5);
@@ -257,34 +272,40 @@ const Decart = (props) => {
             }
           }
           if(anchore === 0) {change_objects('no', 'anchore', objects[i].id); continue;}
-          let aX = objects[i].x - anchore.x;
           let aY = objects[i].y - anchore.y;
-          let bX = objects[i].speedX;
-          let bY = objects[i].speedY;
-          let cX = objects[i].acsX;
-          let cY = objects[i].acsY;
           let radius = Math.pow(( Math.pow((anchore.x - objects[i].x), 2) + Math.pow((anchore.y - objects[i].y), 2) ), 0.5);
           let fi = Math.acos(aY / radius);
           if(objects[i].x < anchore.x) fi = -fi;
-          let cosA = ((aX * bX) + (aY * bY))/( Math.pow((aX*aX+aY*aY), 0.5) * Math.pow((bX*bX+bY*bY), 0.5) );
-          let sinA = Math.pow((1 - Math.pow(cosA, 2)), 0.5);
-          const znak = (aX, aY, bX, bY) => {
-            let cof = 1;
-            if(aX > 0 && aY > 0) if(bY >= (aY/aX) * bX) cof = -1;
-            if(aX < 0 && aY > 0) if(bY < (aY/aX) * bX) cof = -1;
-            if(aX < 0 && aY < 0) if(bY <= (aY/aX) * bX) cof = -1;
-            if(aX > 0 && aY < 0) if(bY > (aY/aX) * bX) cof = -1;
-            return cof;
-          }
-          let speed;
-          if((bX === 0) && (bY === 0)) speed = 0;
-          else speed = Math.pow(( bX*bX + bY*bY ), 0.5) * sinA * znak(aX, aY, bX, bY);
+          if(objects[i].V === 'no'){
+            let aX = objects[i].x - anchore.x;
+            let bX = objects[i].speedX;
+            let bY = objects[i].speedY;
+            let cX = objects[i].acsX;
+            let cY = objects[i].acsY;
+            let cosA = ((aX * bX) + (aY * bY))/( Math.pow((aX*aX+aY*aY), 0.5) * Math.pow((bX*bX+bY*bY), 0.5) );
+            let sinA = Math.pow((1 - Math.pow(cosA, 2)), 0.5);
+            const znak = (aX, aY, bX, bY) => {
+              let cof = 1;
+              if(aX > 0 && aY > 0) if(bY >= (aY/aX) * bX) cof = -1;
+              if(aX < 0 && aY > 0) if(bY < (aY/aX) * bX) cof = -1;
+              if(aX < 0 && aY < 0) if(bY <= (aY/aX) * bX) cof = -1;
+              if(aX > 0 && aY < 0) if(bY > (aY/aX) * bX) cof = -1;
+              return cof;
+            }
+            let speed;
+            if((bX === 0) && (bY === 0)) speed = 0;
+            else speed = Math.pow(( bX*bX + bY*bY ), 0.5) * sinA * znak(aX, aY, bX, bY);
 
-          let cosB = ((aX * cX) + (aY * cY))/( Math.pow((aX*aX+aY*aY), 0.5) * Math.pow((cX*cX+cY*cY), 0.5) );
-          let sinB = Math.pow((1 - Math.pow(cosB, 2)), 0.5);
-          let acs;
-          if((cX === 0) && (cY === 0)) acs = 0;
-          else acs = Math.pow(( cX*cX + cY*cY ), 0.5) * sinB * znak(aX, aY, cX, cY);
+            let cosB = ((aX * cX) + (aY * cY))/( Math.pow((aX*aX+aY*aY), 0.5) * Math.pow((cX*cX+cY*cY), 0.5) );
+            let sinB = Math.pow((1 - Math.pow(cosB, 2)), 0.5);
+            let acs;
+            if((cX === 0) && (cY === 0)) acs = 0;
+            else acs = Math.pow(( cX*cX + cY*cY ), 0.5) * sinB * znak(aX, aY, cX, cY);
+            change_objects(speed, 'V', objects[i].id);
+            change_objects(acs, 'acs', objects[i].id);
+          }
+          let speed = objects[i].V;
+          let acs = objects[i].acs;
           let angle = ((time * speed + time*time * acs / 2)/(radius)) % (2*Math.PI);
           let alfa = fi+angle;
           x = radius * Math.sin(alfa) + anchore.x;
@@ -481,10 +502,6 @@ const Decart = (props) => {
     }
     set_selecting(false);
   }
-
-  const to_select_objext = () => {
-    set_selecting(true);
-  }
   
   const place_anchore = (x, y) => {
     let X = (x - startX) / numberCof / scaleX;
@@ -514,7 +531,7 @@ const Decart = (props) => {
     onMouseUp = {() => setIsChange(false)}
     onClick = {(e) => {
       select_anchore(e.pageX - 300, e.pageY - 50);
-      to_select_objext();
+      set_selecting(true);
       if(props.is_placing){
         if(!dot_placed) return place_object(e.pageX - 300, e.pageY - 50);
         if(dot_placed && !speed_placed) return place_speed(e.pageX - 300, e.pageY - 50);
