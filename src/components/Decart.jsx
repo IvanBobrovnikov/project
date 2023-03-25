@@ -4,6 +4,8 @@ const Decart = (props) => {
 
   const change_objects = props.change_objects;
 
+  const DisplayOnSelected = props.DisplayOnSelected;
+
   const anchors = props.anchors;
 
   const [selecting, set_selecting] = useState(false);
@@ -39,6 +41,10 @@ const Decart = (props) => {
   const [numberCof, set_numberCof] = useState(1);
   
   const canvasRef = useRef(null);
+
+  const superRound = (num) => {
+    return Math.round(num * 100) / 100
+  }
 
   const [mousePos, setMousePos] = useState({});
   
@@ -159,6 +165,18 @@ const Decart = (props) => {
             let Y2 = startY - y_2;
             ctx.fillRect(X, Y1, tolshina, tolshina);
             ctx.fillRect(X, Y2, tolshina, tolshina);
+            //точка на траектории
+            if(X === mousePos.x && objects[i].is_selected && DisplayOnSelected.everyPoint){
+              let y;
+              if(isNaN(Y1)) y = Y2;
+              else if(isNaN(Y2)) y = Y1;
+              else if(Math.abs(Y1 - mousePos.y) < Math.abs(Y2 - mousePos.y)) y = Y1;
+              else y = Y2;
+              ctx.beginPath();
+              ctx.arc(X, y, 3, 0, 2*Math.PI, false);
+              ctx.fill();
+              ctx.fillText(`(${superRound((X - startX) / numberCof / scaleX)}; ${superRound((startY - y) / numberCof / scaleX)})`, X + 10, y - 10);
+            }
           }
           for(let y = startY - height; y <= startY + width; y += times){
             let t1 = -1, t2 = -1;
@@ -177,20 +195,31 @@ const Decart = (props) => {
             ctx.fillRect(X1, Y, tolshina, tolshina);
             ctx.fillRect(X2, Y, tolshina, tolshina);
           }
-          if(objects[i].is_selected){
+          //top point
+          if(objects[i].is_selected && DisplayOnSelected.topPoint){
             let acs = objects[i].acsY;
             if(objects[i].isGravity) acs -= 10;
             let t = -objects[i].speedY/acs;
-            if(t < 0) continue;
-            let x = startX + (start_x + speedX * t + acsX * t * t / 2);
-            let y = startY - (start_y + speedY * t + acsY * t * t / 2);
-            ctx.beginPath();
-            ctx.arc(x, y, 3, 0, 2*Math.PI, false);
-            ctx.fill();
-            const superRound = (num) => {
-              return Math.round(num * 100) / 100
-            } 
-            ctx.fillText(`(${superRound((x - startX) / numberCof / scaleX)}; ${superRound((startY - y) / numberCof / scaleX)})`, x + 10, y - 10);
+            if(t >= 0){
+              let x = startX + (start_x + speedX * t + acsX * t * t / 2);
+              let y = startY - (start_y + speedY * t + acsY * t * t / 2);
+              ctx.beginPath();
+              ctx.arc(x, y, 3, 0, 2*Math.PI, false);
+              ctx.fill(); 
+              ctx.fillText(`(${superRound((x - startX) / numberCof / scaleX)}; ${superRound((startY - y) / numberCof / scaleX)})`, x + 10, y - 10);
+            }
+          }
+          //side point
+          if(objects[i].is_selected && DisplayOnSelected.sidePoint){
+            let t = -objects[i].speedX/objects[i].acsX;
+            if(t >= 0){
+              let x = startX + (start_x + speedX * t + acsX * t * t / 2);
+              let y = startY - (start_y + speedY * t + acsY * t * t / 2);
+              ctx.beginPath();
+              ctx.arc(x, y, 3, 0, 2*Math.PI, false);
+              ctx.fill(); 
+              ctx.fillText(`(${superRound((x - startX) / numberCof / scaleX)}; ${superRound((startY - y) / numberCof / scaleX)})`, x + 10, y - 10);
+            }
           }
           ctx.fillStyle = '#000000';
         }else if(objects[i].isGravity === false){

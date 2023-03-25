@@ -27,6 +27,8 @@ const Graphic = (props) =>{
 
   const [is_placing, set_is_placing] = useState(false);
 
+  const [DisplayOnSelected, setDisplayOnSelected] = useState({topPoint: true, sidePoint: true, everyPoint: true})
+
   useEffect(() => {
     const interval = setInterval(() => {
       if(!is_paused) set_time(superRound(time + delta_time, 100));
@@ -179,6 +181,7 @@ const Graphic = (props) =>{
         is_placing_anchore = {is_placing_anchore} stop_placing_anchore = {stop_placing_anchore} add_anchore = {add_anchore}
         select_anchore = {select_anchore}
         change_objects = {change_objects}
+        DisplayOnSelected = {DisplayOnSelected}
         />
         <div>{anchoreMenu}</div>
       </div>
