@@ -187,6 +187,7 @@ const Decart = (props) => {
           if(objects[i].is_selected && DisplayOnSelected.everyPoint){
             let Vx = objects[i].speedX, Vy = objects[i].speedY;
             let ax = objects[i].acsX, ay = objects[i].acsY;
+            if(objects[i].isGravity) ay -= 10;
             let dx = objects[i].x - (mousePos.x - startX) / numberCof / scaleX;
             let dy = objects[i].y - (startY - mousePos.y) / numberCof / scaleX;
             let a = 3*(Vx*ax + Vy*ay)/(ax*ax + ay*ay);
