@@ -165,18 +165,6 @@ const Decart = (props) => {
             let Y2 = startY - y_2;
             ctx.fillRect(X, Y1, tolshina, tolshina);
             ctx.fillRect(X, Y2, tolshina, tolshina);
-            //точка на траектории
-            if(X === mousePos.x && objects[i].is_selected && DisplayOnSelected.everyPoint){
-              let y;
-              if(isNaN(Y1)) y = Y2;
-              else if(isNaN(Y2)) y = Y1;
-              else if(Math.abs(Y1 - mousePos.y) < Math.abs(Y2 - mousePos.y)) y = Y1;
-              else y = Y2;
-              ctx.beginPath();
-              ctx.arc(X, y, 3, 0, 2*Math.PI, false);
-              ctx.fill();
-              ctx.fillText(`(${superRound((X - startX) / numberCof / scaleX)}; ${superRound((startY - y) / numberCof / scaleX)})`, X + 10, y - 10);
-            }
           }
           for(let y = startY - height; y <= startY + width; y += times){
             let t1 = -1, t2 = -1;
@@ -195,6 +183,53 @@ const Decart = (props) => {
             ctx.fillRect(X1, Y, tolshina, tolshina);
             ctx.fillRect(X2, Y, tolshina, tolshina);
           }
+          //точка на траектории
+          if(objects[i].is_selected && DisplayOnSelected.everyPoint){
+            let Vx = objects[i].speedX, Vy = objects[i].speedY;
+            let ax = objects[i].acsX, ay = objects[i].acsY;
+            let dx = objects[i].x - (mousePos.x - startX) / numberCof / scaleX;
+            let dy = objects[i].y - (startY - mousePos.y) / numberCof / scaleX;
+            let a = 3*(Vx*ax + Vy*ay)/(ax*ax + ay*ay);
+            let b = 2*(ax*dx + ay*dy + Vx*Vx + Vy*Vy)/(ax*ax + ay*ay);
+            let c = 2*(Vx*dx + Vy*dy)/(ax*ax + ay*ay);
+            let Q = (a*a - 3*b)/9, R = (2*a*a*a - 9*a*b + 27*c)/54;
+            let S = Q*Q*Q - R*R;
+            let t1, t2, t3
+            if(S > 0){
+              let fi = Math.acos(R/Math.sqrt(Q*Q*Q))/3;
+              t1 = -2*Math.sqrt(Q)*Math.cos(fi) - a/3;
+              t2 = -2*Math.sqrt(Q)*Math.cos(fi + 2/3*Math.PI) - a/3;
+              t3 = -2*Math.sqrt(Q)*Math.cos(fi - 2/3*Math.PI) - a/3;
+            }else if(S < 0){
+              const Arsh = (n) => {return Math.log(n + Math.sqrt(n*n+1))}
+              const sh = (n) => {return (Math.pow( Math.E, n ) - Math.pow( Math.E, -n ))/2}
+              const ch = (n) => {return (Math.pow( Math.E, n ) + Math.pow( Math.E, -n ))/2}
+              const sgn = (n) => {return Math.abs(n)/n}
+              if(Q > 0){
+                let fi = Arsh(Math.abs(R)/Math.sqrt(Math.abs(Q)*Q*Q))/3
+                t1 = -2 * sgn(R) * Math.sqrt(Q) * ch(fi) - a / 3;
+              }else if (Q === 0){
+                t1 = -Math.pow(( c - Math.pow((a/3), 3) ) , 1/3) - a/3
+              }else{
+                let fi = Arsh(Math.abs(R) / Math.sqrt(-Q*Q*Q)) / 3;
+                t1 = -2 * sgn(R) * Math.sqrt(-Q) * sh(fi) - a / 3;
+              }
+            }else{
+              t1 = -2*Math.pow(R, 1/3) - a/3;
+              t2 = Math.pow(R, 1/3) - a/3;
+            }
+            let t;
+            if(t2 > 0) t = t2;
+            else if(t1 > 0) t = t1;
+            else if(t3 > 0) t = t3;
+            let X, Y;
+            X = startX + start_x + speedX * t + acsX * t*t / 2;
+            Y = startY - (start_y + speedY * t + acsY * t*t / 2);
+            ctx.beginPath();
+            ctx.arc(X, Y, 3, 0, 2*Math.PI, false);
+            ctx.fill(); 
+            ctx.fillText(`(${superRound((X - startX) / numberCof / scaleX)}; ${superRound((startY - Y) / numberCof / scaleX)})`, X + 10, Y - 20);
+          }
           //top point
           if(objects[i].is_selected && DisplayOnSelected.topPoint){
             let acs = objects[i].acsY;
@@ -206,7 +241,7 @@ const Decart = (props) => {
               ctx.beginPath();
               ctx.arc(x, y, 3, 0, 2*Math.PI, false);
               ctx.fill(); 
-              ctx.fillText(`(${superRound((x - startX) / numberCof / scaleX)}; ${superRound((startY - y) / numberCof / scaleX)})`, x + 10, y - 10);
+              ctx.fillText(`(${superRound((x - startX) / numberCof / scaleX)}; ${superRound((startY - y) / numberCof / scaleX)})`, x + 10, y - 20);
             }
           }
           //side point
@@ -218,7 +253,7 @@ const Decart = (props) => {
               ctx.beginPath();
               ctx.arc(x, y, 3, 0, 2*Math.PI, false);
               ctx.fill(); 
-              ctx.fillText(`(${superRound((x - startX) / numberCof / scaleX)}; ${superRound((startY - y) / numberCof / scaleX)})`, x + 10, y - 10);
+              ctx.fillText(`(${superRound((x - startX) / numberCof / scaleX)}; ${superRound((startY - y) / numberCof / scaleX)})`, x + 10, y - 20);
             }
           }
           ctx.fillStyle = '#000000';
