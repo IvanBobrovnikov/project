@@ -183,6 +183,7 @@ const Decart = (props) => {
             ctx.fillRect(X1, Y, tolshina, tolshina);
             ctx.fillRect(X2, Y, tolshina, tolshina);
           }
+          ctx.fillStyle = '#000000';
           //точка на траектории
           if(objects[i].is_selected && DisplayOnSelected.everyPoint){
             let Vx = objects[i].speedX, Vy = objects[i].speedY;
@@ -257,7 +258,6 @@ const Decart = (props) => {
               ctx.fillText(`(${superRound((x - startX) / numberCof / scaleX)}; ${superRound((startY - y) / numberCof / scaleX)})`, x + 10, y - 20);
             }
           }
-          ctx.fillStyle = '#000000';
         }else if(objects[i].isGravity === false){
           let anchoreId = objects[i].anchore;
           let anchore = 0;
@@ -277,6 +277,19 @@ const Decart = (props) => {
           ctx.arc(x, y, radius, 0, 2*Math.PI, false);
           ctx.stroke();
           ctx.closePath();
+          if(objects[i].is_selected && DisplayOnSelected.everyPoint ){
+            let aY = (startY - mousePos.y) / numberCof / scaleX - anchore.y;
+            let radius1 = Math.pow(( Math.pow((anchore.x - (mousePos.x - startX)/numberCof/scaleX), 2) + Math.pow((anchore.y - (startY - mousePos.y) / numberCof / scaleX), 2) ), 0.5);
+            let fi = Math.acos(aY / radius1);
+            if((mousePos.x - startX)/numberCof/scaleX < anchore.x) fi = -fi;
+            radius = Math.pow(( Math.pow((anchore.x - objects[i].x), 2) + Math.pow((anchore.y - objects[i].y), 2) ), 0.5);
+            x = radius * Math.sin(fi) + anchore.x;
+            y = radius * Math.cos(fi) + anchore.y;
+            ctx.beginPath();
+            ctx.arc(startX + x*numberCof * scaleX, startY - (y * scaleX * numberCof), 3, 0, 2*Math.PI, false);
+            ctx.fill(); 
+            ctx.fillText(`(${superRound(x, 100)}; ${superRound(y, 100)})`, startX + x*numberCof * scaleX + 10, startY - (y * scaleX * numberCof) + 10)
+          }
         }else if(objects[i].isGravity === true){
           let anchoreId = objects[i].anchore;
           let anchore = 0;
@@ -310,6 +323,19 @@ const Decart = (props) => {
           ctx.lineTo(2*x - objx, objy);
           ctx.stroke();
           ctx.closePath();
+          if(objects[i].is_selected && DisplayOnSelected.everyPoint){
+            let radius1 = Math.pow(( Math.pow((anchore.x - (mousePos.x - startX)/numberCof/scaleX), 2) + Math.pow((anchore.y - (startY - mousePos.y) / numberCof / scaleX), 2) ), 0.5);
+            aY = (startY - mousePos.y) / numberCof / scaleX - anchore.y;
+            let fi1 = Math.acos(aY / radius1);
+            if(Math.abs(fi1) <= Math.abs(fi)) fi1 = fi;
+            if((mousePos.x - startX)/numberCof/scaleX < anchore.x) fi1 = -fi1;
+            x = radius * Math.sin(fi1) / numberCof / scaleX + anchore.x;
+            y = radius * Math.cos(fi1) / numberCof / scaleX + anchore.y;
+            ctx.beginPath();
+            ctx.arc(startX + x*numberCof * scaleX, startY - (y * scaleX * numberCof), 3, 0, 2*Math.PI, false);
+            ctx.fill(); 
+            ctx.fillText(`(${superRound(x, 100)}; ${superRound(y, 100)})`, startX + x*numberCof * scaleX + 10, startY - (y * scaleX * numberCof) + 10)
+          }
         }
       }
     }
