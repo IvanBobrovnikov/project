@@ -221,9 +221,9 @@ const Decart = (props) => {
               t2 = Math.pow(R, 1/3) - a/3;
             }
             let t;
-            if(t2 > 0) t = t2;
-            else if(t1 > 0) t = t1;
-            else if(t3 > 0) t = t3;
+            if(t2 >= 0) t = t2;
+            else if(t1 >= 0) t = t1;
+            else if(t3 >= 0) t = t3;
             let X, Y;
             X = startX + start_x + speedX * t + acsX * t*t / 2;
             Y = startY - (start_y + speedY * t + acsY * t*t / 2);
